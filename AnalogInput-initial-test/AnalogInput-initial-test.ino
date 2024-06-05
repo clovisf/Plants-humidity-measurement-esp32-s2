@@ -1,50 +1,49 @@
-/*
-  Analog Input
+// constants won't change. Used here to set a pin number:
+const int ledPin1 = PA5;  // the number of the LED pin
+const int ledPin2 = PA6;  // the number of the LED pin
+const int ledPin3 = PA7;  // the number of the LED pin
+const int ledPin4 = PA8;  // the number of the LED pin
+const int ledPin5 = PB6;  // the number of the LED pin
+const int ledPin6 = PB7;  // the number of the LED pin
 
-  Demonstrates analog input by reading an analog sensor on analog pin 0 and
-  turning on and off a light emitting diode(LED) connected to digital pin 13.
-  The amount of time the LED will be on and off depends on the value obtained
-  by analogRead().
+// Variables will change:
+int ledState = LOW;  // ledState used to set the LED
 
-  The circuit:
-  - potentiometer
-    center pin of the potentiometer to the analog input 0
-    one side pin (either one) to ground
-    the other side pin to +5V
-  - LED
-    anode (long leg) attached to digital output 13 through 220 ohm resistor
-    cathode (short leg) attached to ground
+// Generally, you should use "unsigned long" for variables that hold time
+// The value will quickly become too large for an int to store
+unsigned long previousMillis = 0;  // will store last time LED was updated
 
-  - Note: because most Arduinos have a built-in LED attached to pin 13 on the
-    board, the LED is optional.
-
-  created by David Cuartielles
-  modified 30 Aug 2011
-  By Tom Igoe
-
-  This example code is in the public domain.
-
-  https://www.arduino.cc/en/Tutorial/BuiltInExamples/AnalogInput
-*/
-
-int sensorPin = A0;   // select the input pin for the potentiometer
-int ledPin = 13;      // select the pin for the LED
-int sensorValue = 0;  // variable to store the value coming from the sensor
+// constants won't change:
+const long interval = 300;  // interval at which to blink (milliseconds)
 
 void setup() {
-  // declare the ledPin as an OUTPUT:
-  pinMode(ledPin, OUTPUT);
+  // set the digital pin as output:
+  pinMode(ledPin1, OUTPUT);
+  pinMode(ledPin2, OUTPUT);
+  pinMode(ledPin3, OUTPUT);
+  pinMode(ledPin4, OUTPUT);
+  pinMode(ledPin5, OUTPUT);
+  pinMode(ledPin6, OUTPUT);
 }
 
 void loop() {
-  // read the value from the sensor:
-  sensorValue = analogRead(sensorPin);
-  // turn the ledPin on
-  digitalWrite(ledPin, HIGH);
-  // stop the program for <sensorValue> milliseconds:
-  delay(sensorValue);
-  // turn the ledPin off:
-  digitalWrite(ledPin, LOW);
-  // stop the program for <sensorValue> milliseconds:
-  delay(sensorValue);
+ 
+    digitalWrite(ledPin6, LOW);
+    digitalWrite(ledPin1, HIGH);
+    delay(1000);
+    digitalWrite(ledPin1, LOW);
+    digitalWrite(ledPin2, HIGH);
+    delay(1000);
+    digitalWrite(ledPin2, LOW);
+    digitalWrite(ledPin3, HIGH);
+    delay(1000);
+    digitalWrite(ledPin3, LOW);
+    digitalWrite(ledPin4, HIGH);
+    delay(1000);
+    digitalWrite(ledPin4, LOW);
+    digitalWrite(ledPin5, HIGH);
+    delay(1000);
+    digitalWrite(ledPin5, LOW);
+    digitalWrite(ledPin6, HIGH);
+    delay(1000);
 }
