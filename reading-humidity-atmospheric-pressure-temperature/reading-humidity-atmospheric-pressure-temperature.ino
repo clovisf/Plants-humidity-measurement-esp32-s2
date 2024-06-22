@@ -10,13 +10,13 @@
 #define BMP_MOSI (11)
 #define BMP_CS   (10)
 
-const char* ssid = "";   // your network SSID (name) 
-const char* password = "";   // your network password
+const char* ssid = "Clovis 2.4G";   // your network SSID (name) 
+const char* password = "99143304";   // your network password
 
 WiFiClient  client;
 
-unsigned long myChannelNumber = ;
-const char * myWriteAPIKey = "";
+unsigned long myChannelNumber = 2515409;
+const char * myWriteAPIKey = "Z3YRH78K0AFE6HLU";
 
 Adafruit_BMP280 bmp; // I2C
 //Adafruit_BMP280 bmp(BMP_CS); // hardware SPI
@@ -25,17 +25,14 @@ Adafruit_BMP280 bmp; // I2C
 int stabilization= 0;
 int iterationcounter= 0;
 int oldtime= 0;
-int humidityreadings[8];
-byte selectchannel= 0b00000000;
-int i= 0;
+int humidityreadings;
 int writetothingspeak= 0;
+int temperature;
+int pressure;
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(5, OUTPUT);
+ 
   Serial.begin(115200);
 
   WiFi.mode(WIFI_STA);   
@@ -72,34 +69,22 @@ void loop() {
     iterationcounter++;
     if(iterationcounter > 97){ //wait 970mS to do anything (in between readings)
       stabilization++;
-      if(iterationcounter == 98){ //here I select which input will be read
-        digitalWrite(2, bitRead(selectchannel, 0));
-        digitalWrite(3, bitRead(selectchannel, 1));
-        digitalWrite(4, bitRead(selectchannel, 2));
-        digitalWrite(5, bitRead(selectchannel, 3));
-        selectchannel= selectchannel + 0b0001;
-      }
+      
       if(stabilization = 3){
         
-        if(i==9){
-          i=0;
-        }else{
-          i++; //wait 30mS to stabilize readings
-        }
         stabilization= 0;
         iterationcounter= 0;
-        humidityreadings[i]= analogRead(A0); //read analog value
-        Serial.print("leitura sensor [");
-        Serial.print(i);
-        Serial.print("]= ");
-        Serial.println(humidityreadings[i]);
+        humidityreadings= analogRead(A0); //read analog value
+        Serial.println(humidityreadings);
 
         Serial.print(F("Temperature = "));
-        Serial.print(bmp.readTemperature());
+        temperature= bmp.readTemperature();
+        Serial.print(temperature);
         Serial.println(" *C");
 
         Serial.print(F("Pressure = "));
-        Serial.print(bmp.readPressure());
+        pressure= bmp.readPressure();
+        Serial.print(pressure);
         Serial.println(" Pa");
       }
     }
@@ -120,14 +105,10 @@ void loop() {
       // Write to ThingSpeak. There are up to 8 fields in a channel, allowing you to store up to 8 different
       // pieces of information in a channel.  Here, we write to field 1.
       
-      ThingSpeak.setField(1, humidityreadings[0]);
-      ThingSpeak.setField(2, humidityreadings[1]);
-      ThingSpeak.setField(3, humidityreadings[2]);
-      ThingSpeak.setField(4, humidityreadings[3]);
-      ThingSpeak.setField(5, humidityreadings[4]);
-      ThingSpeak.setField(6, humidityreadings[5]);
-      ThingSpeak.setField(7, humidityreadings[6]);
-      ThingSpeak.setField(8, humidityreadings[7]);
+      ThingSpeak.setField(1, humidityreadings);
+      ThingSpeak.setField(2, temperature);
+      ThingSpeak.setField(3, pressure);
+      
 
       int x = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
 
