@@ -10,13 +10,13 @@
 #define BMP_MOSI (11)
 #define BMP_CS   (10)
 
-const char* ssid = "Clovis 2.4G";   // your network SSID (name) 
-const char* password = "99143304";   // your network password
+const char* ssid = "";   // your network SSID (name) 
+const char* password = "";   // your network password
 
 WiFiClient  client;
 
-unsigned long myChannelNumber = 2515409;
-const char * myWriteAPIKey = "Z3YRH78K0AFE6HLU";
+unsigned long myChannelNumber = ;
+const char * myWriteAPIKey = "";
 
 Adafruit_BMP280 bmp; // I2C
 //Adafruit_BMP280 bmp(BMP_CS); // hardware SPI
